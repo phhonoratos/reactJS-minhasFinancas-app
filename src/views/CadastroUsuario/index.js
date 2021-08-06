@@ -18,7 +18,7 @@ class CadastroUsuario extends React.Component {
     }
 
     cancelarCadatro = () => {
-        this.props.history.push('/login')
+        this.props.history.push('/home')
     }
 
     render() {
