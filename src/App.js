@@ -1,12 +1,16 @@
 import 'bootswatch/dist/flatly/bootstrap.css'
+import NavBar from './components/NavBar';
 import './custom.css'
 import Routes from './main/routes'
 
 function App() {
   return (
-    <div className="App">
-      <Routes />
-    </div>
+    <>
+      <NavBar />
+      <div className="App container">
+        <Routes />
+      </div>
+    </>
   );
 }
 

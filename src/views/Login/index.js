@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import Card from '../../components/Card'
 import FormGroup from '../../components/FormGroup'
 
@@ -14,9 +15,12 @@ class Login extends React.Component {
         console.log('Senha: ', this.state.senha)
     }
 
+    prepararCadatro = () => {
+        this.props.history.push('/cadastrarUsuario')
+    }
+
     render() {
         return(
-            <div className="container">
                 <div className="row">
                     <div className="col-md-6">
                         <div className="bd-docs-section">
@@ -43,7 +47,7 @@ class Login extends React.Component {
                                                         placeholder="Digite o Email" />
                                                 </FormGroup>
                                                 <button className="btn btn-success" onClick={this.entrar}>Entrar</button>
-                                                <button className="btn btn-danger">Cadastrar</button>
+                                                <button className="btn btn-danger" onClick={this.prepararCadatro}>Cadastrar</button>
                                             </fieldset>
                                         </div>
                                     </div>
@@ -52,9 +56,8 @@ class Login extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
         );        
     }
 }
 
-export default Login;
+export default withRouter(Login);
