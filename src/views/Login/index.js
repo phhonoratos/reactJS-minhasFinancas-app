@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Card from '../../components/Card'
@@ -7,12 +8,19 @@ class Login extends React.Component {
 
     state = {
         email: '',
-        senha: ''
+        senha: '',
+        msgErro: null
     }
 
     entrar = () => {
-        console.log('Email: ', this.state.email)
-        console.log('Senha: ', this.state.senha)
+        axios.post('http://localhost:8080/api/usuarios/autenticar', {
+            email: this.state.email,
+            senha: this.state.senha
+        }).then(response => {
+            this.props.history.push('/home')
+        }).catch(erro => {
+            this.setState({msgErro: erro.response.data})
+        })
     }
 
     prepararCadatro = () => {
@@ -26,7 +34,10 @@ class Login extends React.Component {
                         <div className="bd-docs-section">
                             <Card title="Login">
                                 <div className="row">
-                                    <div classNamr="col-lg-12">
+                                    <span>{this.state.msgErro}</span>
+                                </div>
+                                <div className="row">
+                                    <div className="col-lg-12">
                                         <div className="bs-component">
                                             <fieldset>
                                                 <FormGroup label="Email: *" htmlFor="exampleInputEmail1">
