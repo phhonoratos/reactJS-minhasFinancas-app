@@ -6,12 +6,13 @@ import FormGroup from '../../components/FormGroup'
 import UsuarioService from '../../app/service/usuarioService'
 import LocalStorageService from '../../app/service/localStorageService'
 
+import { mensagemErro } from '../../components/Toastr/toastr.js'
+
 class Login extends React.Component {
 
     state = {
         email: '',
-        senha: '',
-        msgErro: null
+        senha: ''
     }
 
     constructor() {
@@ -27,7 +28,7 @@ class Login extends React.Component {
             LocalStorageService.addItem('_usuario_logado', response.data)
             this.props.history.push('/home')
         }).catch(erro => {
-            this.setState({msgErro: erro.response})
+            mensagemErro(erro.response.data)
         })
     }
 
@@ -41,9 +42,6 @@ class Login extends React.Component {
                     <div className="col-md-6">
                         <div className="bd-docs-section">
                             <Card title="Login">
-                                <div className="row">
-                                    <span>{this.state.msgErro}</span>
-                                </div>
                                 <div className="row">
                                     <div className="col-lg-12">
                                         <div className="bs-component">
