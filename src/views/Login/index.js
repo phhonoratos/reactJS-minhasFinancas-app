@@ -1,8 +1,10 @@
-import axios from 'axios'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Card from '../../components/Card'
 import FormGroup from '../../components/FormGroup'
+
+import UsuarioService from '../../app/service/usuarioService'
+import LocalStorageService from '../../app/service/localStorageService'
 
 class Login extends React.Component {
 
@@ -12,14 +14,20 @@ class Login extends React.Component {
         msgErro: null
     }
 
+    constructor() {
+        super();
+        this.service = new UsuarioService();
+    }
+
     entrar = () => {
-        axios.post('http://localhost:8080/api/usuarios/autenticar', {
+        this.service.autenticar({
             email: this.state.email,
             senha: this.state.senha
         }).then(response => {
+            LocalStorageService.addItem('_usuario_logado', response.data)
             this.props.history.push('/home')
         }).catch(erro => {
-            this.setState({msgErro: erro.response.data})
+            this.setState({msgErro: erro.response})
         })
     }
 

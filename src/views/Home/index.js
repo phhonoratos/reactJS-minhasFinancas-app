@@ -2,10 +2,28 @@ import React from 'react'
 import {withRouter} from 'react-router-dom'
 import './styles.css'
 
+import UsuarioService from '../../app/service/usuarioService'
+import LocalStorageService from '../../app/service/localStorageService'
+
 class Home extends React.Component {
 
     state = {
         saldo: 0
+    }
+
+    constructor() {
+        super();
+        this.usuarioService = new UsuarioService();
+    }
+
+    componentDidMount() {
+        const usuario = LocalStorageService.obterItem('_usuario_logado')
+        this.usuarioService.obterSaldoPorUsuario(usuario.id)
+            .then(response => {
+                this.setState({saldo: response.data})
+            }).catch(error => {
+                console.log(error.response)
+            })
     }
 
     render() {
