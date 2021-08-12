@@ -6,7 +6,7 @@ import SelectMenu from '../../components/SelectMenu';
 import TableLancamentos from './components/TableLancamentos';
 import LancamentoService from '../../app/service/lancamentoService';
 import LocalStorageService from '../../app/service/localStorageService'
-import {mensagemErro, mensagemSucesso} from '../../components/Toastr/toastr'
+import {mensagemErro, mensagemSucesso, mensagemAlerta} from '../../components/Toastr/toastr'
 import {Dialog} from 'primereact/dialog'
 import {Button} from 'primereact/button'
 
@@ -45,7 +45,13 @@ class ConsultaLancamentos extends React.Component {
 
         this.service.consultar(lancamentoFiltro)
             .then(response => {
-                this.setState({lancamentos: response.data})
+                const lista = response.data
+
+                if(lista.length < 1) {
+                    mensagemAlerta('Nenhum lançamento encontrado.')
+                }
+                
+                this.setState({lancamentos: lista})
             }).catch(error => {
                 console.log(error)
             })
@@ -77,6 +83,20 @@ class ConsultaLancamentos extends React.Component {
 
     prepararCadastro = () => {
         this.props.history.push('/cadastrarLancamento')
+    }
+
+    alterarStatus = (lancamento, status) => {
+        this.service.atualizarStatus(lancamento.id, status)
+            .then(response => {
+                const lancamentos = this.state.lancamentos;
+                const index = lancamentos.indexOf(lancamento);
+                if(index !== -1) {
+                    lancamento['status'] = status;
+                    lancamentos[index] = lancamento;
+                    this.setState({lancamento})
+                }
+                mensagemSucesso('Status atualizado com sucesso!')
+            })
     }
 
     render() {
@@ -129,12 +149,12 @@ class ConsultaLancamentos extends React.Component {
                             <button type="button" 
                                     className="btn btn-success" 
                                     onClick={this.buscar}>
-                                        Buscar
+                                    <i className="pi pi-search"></i> Buscar
                             </button>
                             <button type="button" 
                                     className="btn btn-danger" 
                                     onClick={this.prepararCadastro}>
-                                        Cadastrar
+                                    <i className="pi pi-plus"></i> Cadastrar
                             </button>
                         </div>
                     </div>
@@ -145,7 +165,8 @@ class ConsultaLancamentos extends React.Component {
                         <div className="bs-component">
                             <TableLancamentos lancamentos={this.state.lancamentos} 
                                               deleteAction={this.abrirConfirmacao} 
-                                              editAction={this.editar} />
+                                              editAction={this.editar} 
+                                              alterarStatus={this.alterarStatus} />
                         </div>
                     </div>
                 </div>

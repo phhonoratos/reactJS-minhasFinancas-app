@@ -73,6 +73,10 @@ class LancamentoService extends ApiService {
         return this.put(`/${lancamento.id}`, lancamento)
     }
 
+    atualizarStatus(id, status) {
+        return this.put(`/${id}/atualizar-status`, {status})
+    }
+
     consultar(lancamentoFiltro) {
         let params = `?ano=${lancamentoFiltro.ano}`
 
