@@ -32,6 +32,10 @@ class LancamentoService extends ApiService {
         ]
     }
 
+    cadastrar(lancamento) {
+        return this.post('/', lancamento)
+    }
+
     consultar(lancamentoFiltro) {
         let params = `?ano=${lancamentoFiltro.ano}`
 
