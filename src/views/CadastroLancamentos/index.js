@@ -44,6 +44,14 @@ class CadastroLancamentos extends React.Component {
         const {descricao, valor, mes, ano, tipo} = this.state;
         const lancamento = {descricao, valor, mes, ano, tipo, usuario: usuarioLogado.id}
 
+        try {
+            this.service.validar(lancamento)
+        } catch (erro) {
+            const mensagens = erro.mensagens
+            mensagens.forEach(msg => mensagemErro(msg))
+            return false;
+        }
+
         this.service.cadastrar(lancamento).then(response => {
             this.props.history.push('/consultaLancamento')
             mensagemSucesso('Lançamento cadastrado com sucesso.')
