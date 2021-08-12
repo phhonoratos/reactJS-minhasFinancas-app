@@ -14,7 +14,7 @@ function Routes() {
                 <Route path="/login" component={Login} />
                 <Route path="/cadastrarUsuario" component={CadastroUsuario} />
                 <Route path="/consultaLancamento" component={ConsultaLancamentos} />
-                <Route path="/cadastrarLancamento" component={CadastrarLancamentos} />
+                <Route path="/cadastrarLancamento/:id?" component={CadastrarLancamentos} />
             </Switch>
         </HashRouter>
     )

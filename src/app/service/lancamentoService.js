@@ -32,8 +32,16 @@ class LancamentoService extends ApiService {
         ]
     }
 
+    obterPorId(id) {
+        return this.get(`/${id}`)
+    }
+
     cadastrar(lancamento) {
         return this.post('/', lancamento)
+    }
+
+    atualizar(lancamento) {
+        return this.put(`/${lancamento.id}`, lancamento)
     }
 
     consultar(lancamentoFiltro) {
