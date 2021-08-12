@@ -75,6 +75,10 @@ class ConsultaLancamentos extends React.Component {
         })
     }
 
+    prepararCadastro = () => {
+        this.props.history.push('/cadastrarLancamento')
+    }
+
     render() {
         const meses = this.service.obterListaMeses();
         const tipos = this.service.obterListaTipos();
@@ -93,11 +97,11 @@ class ConsultaLancamentos extends React.Component {
                         <div className="bs-component">
                             <FormGroup htmlFor="inputAno" label="Ano: *">
                                 <input type="text" 
-                                   className="form-control" 
-                                   id="inputAno" 
-                                   value={this.state.ano}
-                                   onChange={e => this.setState({ano: e.target.value})}
-                                   placeholder="Digite o Ano" />
+                                       className="form-control" 
+                                       id="inputAno" 
+                                       value={this.state.ano}
+                                       onChange={e => this.setState({ano: e.target.value})}
+                                       placeholder="Digite o Ano" />
                             </FormGroup>
                             <FormGroup htmlFor="inputMes" label="Mês: ">
                                 <SelectMenu id="inputMes" 
@@ -108,11 +112,11 @@ class ConsultaLancamentos extends React.Component {
                             </FormGroup>
                             <FormGroup htmlFor="inputDescricao" label="Descrição: *">
                                 <input type="text" 
-                                   className="form-control" 
-                                   id="inputDescricao" 
-                                   value={this.state.descricao}
-                                   onChange={e => this.setState({descricao: e.target.value})}
-                                   placeholder="Digite a Descrição" />
+                                       className="form-control" 
+                                       id="inputDescricao" 
+                                       value={this.state.descricao}
+                                       onChange={e => this.setState({descricao: e.target.value})}
+                                       placeholder="Digite a Descrição" />
                             </FormGroup>
                             <FormGroup htmlFor="inputTipo" label="Tipo: ">
                                 <SelectMenu id="inputTipo" 
@@ -122,8 +126,16 @@ class ConsultaLancamentos extends React.Component {
                                             lista={tipos} />
                             </FormGroup>
 
-                            <button type="button" className="btn btn-success" onClick={this.buscar}>Buscar</button>
-                            <button type="button" className="btn btn-danger">Cadastrar</button>
+                            <button type="button" 
+                                    className="btn btn-success" 
+                                    onClick={this.buscar}>
+                                        Buscar
+                            </button>
+                            <button type="button" 
+                                    className="btn btn-danger" 
+                                    onClick={this.prepararCadastro}>
+                                        Cadastrar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -132,21 +144,21 @@ class ConsultaLancamentos extends React.Component {
                     <div className="col-md-12">
                         <div className="bs-component">
                             <TableLancamentos lancamentos={this.state.lancamentos} 
-                                               deleteAction={this.abrirConfirmacao} 
-                                               editAction={this.editar} />
+                                              deleteAction={this.abrirConfirmacao} 
+                                              editAction={this.editar} />
                         </div>
                     </div>
                 </div>
 
                 <div>
-                <Dialog header="Godfather I" 
-                        visible={this.state.showConfirmDialog} 
-                        style={{ width: '50vw' }} 
-                        modal={true}
-                        footer={confirmDialogFooter}
-                        onHide={() => this.setState({showConfirmDialog: false})}>
-                    Confirmar a exclusão deste lançamento?
-                </Dialog>
+                    <Dialog header="Godfather I" 
+                            visible={this.state.showConfirmDialog} 
+                            style={{ width: '50vw' }} 
+                            modal={true}
+                            footer={confirmDialogFooter}
+                            onHide={() => this.setState({showConfirmDialog: false})}>
+                        Confirmar a exclusão deste lançamento?
+                    </Dialog>
                 </div>
             </Card>
         )
