@@ -8,15 +8,16 @@ import 'primeicons/primeicons.css'
 
 import NavBar from './components/NavBar';
 import Routes from './main/routes'
+import ProvedorAutenticacao from './main/provedorAutenticacao'
 
 function App() {
   return (
-    <>
+    <ProvedorAutenticacao>
       <NavBar />
       <div className="App container">
         <Routes />
       </div>
-    </>
+    </ProvedorAutenticacao>
   );
 }
 

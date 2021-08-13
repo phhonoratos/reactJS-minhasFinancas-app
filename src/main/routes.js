@@ -5,12 +5,12 @@ import ConsultaLancamentos from '../views/ConsultaLancamentos/index'
 import CadastrarLancamentos from '../views/CadastroLancamentos'
 import Home from '../views/Home'
 import Login from '../views/Login'
-import AuthService from '../app/service/authService'
+import { AuthConsumer } from './provedorAutenticacao'
 
-function RotaAutenticada({component: Component, ...props}) {
+function RotaAutenticada({component: Component, isUsuarioAutenticado, ...props}) {
     return(
         <Route {...props} render={(componentProps) => {
-            if(AuthService.isUsuarioAutenticado()) {
+            if(isUsuarioAutenticado) {
                 return(
                     <Component {...componentProps} />
                 )
@@ -23,18 +23,22 @@ function RotaAutenticada({component: Component, ...props}) {
     )
 }
 
-function Routes() {
+function Routes(props) {
     return(
         <HashRouter>
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/cadastrarUsuario" component={CadastroUsuario} />
-                <RotaAutenticada path="/home" component={Home} />
-                <RotaAutenticada path="/consultaLancamento" component={ConsultaLancamentos} />
-                <RotaAutenticada path="/cadastrarLancamento/:id?" component={CadastrarLancamentos} />
+                <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/home" component={Home} />
+                <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/consultaLancamento" component={ConsultaLancamentos} />
+                <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/cadastrarLancamento/:id?" component={CadastrarLancamentos} />
             </Switch>
         </HashRouter>
     )
 }
 
-export default Routes;
+export default () => (
+    <AuthConsumer>
+        {(context) => (<Routes isUsuarioAutenticado={context.isAutenticado} />)}
+    </AuthConsumer>
+)
